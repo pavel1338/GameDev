@@ -6,24 +6,35 @@ public class Movement : MonoBehaviour
 {
     public float speed;
     private Vector2 direction;
-    private Rigidbody2D rb;
+    Rigidbody2D rb;
+    private float x;
+    private float y;
+    SpriteRenderer sr;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        sr = GetComponent<SpriteRenderer>();
     }
 
 
     void Update()
     {
-        Vector2 moveInput = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
+        x = Input.GetAxisRaw("Horizontal");
+        y = Input.GetAxisRaw("Vertical");
+        Vector2 moveInput = new Vector2(x, y);
         direction = moveInput.normalized * speed;
     }
 
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + direction * Time.fixedDeltaTime);
+        if (x < 0)
+            sr.flipX = true;
+        if (x > 0)
+            sr.flipX = false;
+
     }
 }
   
